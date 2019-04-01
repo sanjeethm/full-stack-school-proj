@@ -4,7 +4,7 @@
   "description": "This is a school project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"cd schoolbackend && node app.js\" \"cd client && npm start\""
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/sanjeethm/full-stack-school-proj/issues"
   },
-  "homepage": "https://github.com/sanjeethm/full-stack-school-proj#readme"
+  "homepage": "https://github.com/sanjeethm/full-stack-school-proj#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
 }
