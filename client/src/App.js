@@ -1,32 +1,90 @@
 import React, { Component } from "react";
 
 import axios from "axios";
-
-import Register from "../src/register";
+import { SCHOOL_OPTIONS, NO_SCHOOL_OPTIONS } from "../src/config";
+import SchoolOption from "../src/schoolOption";
 
 class App extends Component {
   // initialize our state
-
   state = {
-    data: [],
+    selectedStudentOption: NO_SCHOOL_OPTIONS,
+    sname: "",
+    semail: "",
+    tname: "",
+    temail: ""
+  };
 
-    id: 0,
+  shouldRenderStudentOption = studentOption =>
+    this.state.selectedStudentOption === NO_SCHOOL_OPTIONS ||
+    this.state.selectedStudentOption === studentOption;
 
-    message: null,
+  selectStudentOption = studentOption => {
+    this.setState({
+      selectedStudentOption: studentOption
+    });
+  };
 
-    intervalIsSet: false,
+  cancelStudentOption = event => {
+    //alert("in cancel");
+    this.selectStudentOption(NO_SCHOOL_OPTIONS);
+  };
 
-    idToDelete: null,
+  submitRegistrationForm = event => {
+    event.preventDefault();
+    alert("Registration Form>>>>>" + event.name);
+  };
 
-    idToUpdate: null,
-
-    objectToUpdate: null
+  onChangeofField = event => {
+    event.preventDefault();
+    alert("hellooooooo" + event.target.sname);
   };
 
   render() {
-    //const { data } = this.state;
+    const showStudentRegistrationForm =
+      this.state.selectedStudentOption !== NO_SCHOOL_OPTIONS;
 
-    return <Register />;
+    return (
+      <div className="container">
+        <div className="row mt-5">
+          <div className="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+            {this.shouldRenderStudentOption(
+              SCHOOL_OPTIONS.REGISTER_STUDENT
+            ) && (
+              <SchoolOption
+                name={SCHOOL_OPTIONS.REGISTER_STUDENT}
+                onSelectStudentOption={this.selectStudentOption}
+                onCancelStudentOption={this.cancelStudentOption}
+                showStudentRegistrationForm={showStudentRegistrationForm}
+                onSubmitRegistrationForm={this.submitRegistrationForm}
+                handleOnchange={this.onChangeofField}
+              />
+            )}
+
+            {this.shouldRenderStudentOption(
+              SCHOOL_OPTIONS.RETRIEVE_ALL_STUDENTS
+            ) && (
+              <SchoolOption
+                name={SCHOOL_OPTIONS.RETRIEVE_ALL_STUDENTS}
+                onSelectStudentOption={this.selectStudentOption}
+                onCancelStudentOption={this.cancelStudentOption}
+                showStudentRegistrationForm={showStudentRegistrationForm}
+              />
+            )}
+
+            {this.shouldRenderStudentOption(
+              SCHOOL_OPTIONS.RETRIEVE_STUDENT_BY_ID
+            ) && (
+              <SchoolOption
+                name={SCHOOL_OPTIONS.RETRIEVE_STUDENT_BY_ID}
+                onSelectStudentOption={this.selectStudentOption}
+                onCancelStudentOption={this.cancelStudentOption}
+                showStudentRegistrationForm={showStudentRegistrationForm}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
